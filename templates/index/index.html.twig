@@ -7,85 +7,116 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-md-5 mx-auto">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="col-md-5 mx-auto myform form ">
+                <p>Email: {{ app.user.email}} <a href="/logout">выход</a></p>
 
-            <div id="first">
-                <div class="myform form ">
 
-                    <div class="logo mb-3">
-                        <div class="col-md-12 text-center">
-                            <h1>Login</h1>
-                        </div>
-                    </div>
-
-                    <form action="" method="post" name="login">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" name="email"  class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Password</label>
-                            <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
-                        </div>
-                        <div class="form-group">
-                            <p class="text-center">By signing up you accept our <a href="#">Terms Of Use</a></p>
-                        </div>
-                        <div class="col-md-12 text-center ">
-                            <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
-                        </div>
-                        <div class="col-md-12 ">
-                            <div class="login-or">
-                                <hr class="hr-or">
-                                <span class="span-or">or</span>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <p class="text-center">
-                                <a href="#" class="google btn mybtn"><i class="fa fa-google-plus">
-                                    </i> Signup using Google
-                                </a>
-                            </p>
-                        </div>
-                        <div class="form-group">
-                            <p class="text-center">Don't have account? <a href="#" id="signup">Sign up here</a></p>
-                        </div>
-                    </form>
-
-                </div>
+                <form action="/generate" id="generate_number">
+                    <button class="btn btn-lg btn-primary" type="submit">Generate!</button>
+                    <p>Сгенерированное число №<span></span> = <b></b></p>
+                </form>
             </div>
 
-            <div id="second">
-                <div class="myform form ">
+            <hr>
 
-                    <div class="logo mb-3">
-                        <div class="col-md-12 text-center">
-                            <h1 >Signup</h1>
-                        </div>
-                    </div>
+            <div class="col-md-5 mx-auto myform form ">
+                <form action="/generate/" id="get_generated_number">
+                    <label for="number_id">Получить сгенерированное число №</label>
+                    <input type="number" name="number_id" id="number_id" class="form-control" required autofocus
+                           min="0" step="1" placeholder="Введите id">
+                    <button class="btn btn-lg btn-primary" type="submit">Get generated number!</button>
+                    <p>Сгенерированное число №<span></span> = <b></b></p>
+                </form>
+            </div>
+        {% else %}
 
-                    <form action="#" name="registration">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" name="email"  class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <div class="col-md-5 mx-auto">
+
+                <div id="first">
+                    <div class="myform form ">
+
+                        <div class="logo mb-3">
+                            <div class="col-md-12 text-center">
+                                <h1>Login</h1>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Password</label>
-                            <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
-                        </div>
-                        <div class="col-md-12 text-center mb-3">
-                            <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Get Started Generate</button>
-                        </div>
-                        <div class="col-md-12 ">
+
+                        <p>Please, login to use generator</p>
+
+                        <form action="/login" method="post" name="login">
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}"
+                            >
                             <div class="form-group">
-                                <p class="text-center"><a href="#" id="signin">Already have an account?</a></p>
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" name="email"  class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Password</label>
+                                <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
+                            </div>
+                            <div class="form-group">
+                                <p class="text-center">By signing up you accept our <a href="#">Terms Of Use</a></p>
+                            </div>
+                            <div class="col-md-12 text-center ">
+                                <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="login-or">
+                                    <hr class="hr-or">
+                                    <span class="span-or">or</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <p class="text-center">
+                                    <a href="#" class="google btn mybtn"><i class="fa fa-google-plus">
+                                        </i> Signup using Google
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <p class="text-center">Don't have account? <a href="#" id="signup">Sign up here</a></p>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <div id="second">
+                    <div class="myform form ">
+
+                        <div class="logo mb-3">
+                            <div class="col-md-12 text-center">
+                                <h1 >Signup</h1>
                             </div>
                         </div>
-                    </form>
 
+                        <form action="/registration" name="registration">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Email address</label>
+                                <input type="email" name="email"  class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Password</label>
+                                <input type="password" name="password" id="password"  class="form-control" aria-describedby="emailHelp" placeholder="Enter Password">
+                            </div>
+                            <div class="col-md-12 text-center mb-3">
+                                <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Get Started Generate</button>
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="form-group">
+                                    <p class="text-center"><a href="#" id="signin">Already have an account?</a></p>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
+
             </div>
 
-        </div>
+        {% endif %}
     </div>
 
 </div>

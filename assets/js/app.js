@@ -13,6 +13,52 @@ import '../css/app.css';
 // global.$ = $;
 
 
+$("#generate_number").on("submit", function(e){
+    e.preventDefault();         //Prevent Default action.
+
+    let form = this;
+    let formURL = this.action;
+
+    $.ajax({
+        url:     formURL,
+        type:    'post',
+        data:    $(form).serialize(),
+        success: function(data, textStatus, jqXHR)
+        {
+            $('#generate_number span').html(data.id);
+            $('#generate_number b').html(data.number);
+        },
+        error:   function(jqXHR, textStatus, errorThrown)
+        {
+            alert("Что-то пошло не так...");
+        }
+    });
+
+});
+
+$("#get_generated_number").on("submit", function(e){
+    e.preventDefault();         //Prevent Default action.
+
+    let form = this;
+    let formURL = this.action + form.number_id.value;
+
+    $.ajax({
+        url:     formURL,
+        type:    'post',
+        data:    $(form).serialize(),
+        success: function(data, textStatus, jqXHR)
+        {
+            $('#get_generated_number span').html(data.id);
+            $('#get_generated_number b').html(data.number);
+        },
+        error:   function(jqXHR, textStatus, errorThrown)
+        {
+            alert("Что-то пошло не так...");
+        }
+    });
+
+});
+
 $("#signup").click(function() {
     $("#first").fadeOut("fast", function() {
         $("#second").fadeIn("fast");
